@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,15 +57,15 @@ public class BankTest {
         // exercise
         bank.deposit(testAccount.getId(), AMOUNT);
         // verify
-        assertEquals(INITIAL_BALANCE+AMOUNT, testAccount.getBalance(), 0);
+        assertEquals(INITIAL_BALANCE+AMOUNT, testAccount.getBalance());
     }
 
-//    @Test
-//    public void testWithdrawWhenAccountIsNotFoundShouldThrow() {
-//        thrown.expect(NoSuchElementException.class);
-//        thrown.expectMessage("No account found with id: 1");
-//        bank.withdraw(1, AMOUNT);
-//    }
+    @Test
+    public void testWithdrawWhenAccountIsNotFoundShouldThrow() {
+        thrown.expect(NoSuchElementException.class);
+        thrown.expectMessage("No account found with id: 1");
+        bank.withdraw(1, AMOUNT);
+    }
 
     @Test
     public void testWithdrawWhenAccountIsFoundShouldDecrementBalance() {
@@ -74,7 +75,7 @@ public class BankTest {
         // exercise
         bank.withdraw(testAccount.getId(), AMOUNT);
         // verify
-        assertEquals(INITIAL_BALANCE-AMOUNT, testAccount.getBalance(), 0);
+        assertEquals(INITIAL_BALANCE-AMOUNT, testAccount.getBalance());
     }
 
     /**
